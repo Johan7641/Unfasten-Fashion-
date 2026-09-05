@@ -1,0 +1,6 @@
+{
+  "name": "Unfasten",
+  "description": "AI-powered ethical fashion investigator evaluating brand ethics, material composition, durability, and greenwashing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
