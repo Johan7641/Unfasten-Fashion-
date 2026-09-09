@@ -8,11 +8,15 @@ import { MethodologyModal } from './components/MethodologyModal';
 import { AiInspectorChat } from './components/AiInspectorChat';
 import { ExploreWithAiSection } from './components/ExploreWithAiSection';
 import { OrientationNotice } from './components/OrientationNotice';
+import { TermsAndConditionsModal, LegalSectionId } from './components/TermsAndConditionsModal';
+import { BlogSection } from './components/BlogSection';
 import { BrandEvaluation, SearchMode } from './types';
 import { CURATED_BRANDS } from './data/curatedBrands';
+import { getBrandCategorization } from './utils/brandCategorization';
 import { Loader2, Sparkles, ShieldCheck, AlertCircle } from 'lucide-react';
 
 export default function App() {
+  const [activeView, setActiveView] = useState<'investigate' | 'blog'>('investigate');
   const [activeEvaluation, setActiveEvaluation] = useState<BrandEvaluation | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [activeQuery, setActiveQuery] = useState('');
@@ -23,6 +27,20 @@ export default function App() {
   const [isAiChatOpen, setIsAiChatOpen] = useState(false);
   const [aiChatInitialPrompt, setAiChatInitialPrompt] = useState<string | undefined>(undefined);
   const [auditStep, setAuditStep] = useState<string>('');
+
+  // Compulsory Terms & Conditions gate on reload of the webpage
+  const [hasAcceptedTerms, setHasAcceptedTerms] = useState<boolean>(false);
+  const [isFullTermsOpen, setIsFullTermsOpen] = useState(false);
+  const [selectedTermsSection, setSelectedTermsSection] = useState<LegalSectionId>('terms');
+
+  const handleAcceptTerms = () => {
+    setHasAcceptedTerms(true);
+  };
+
+  const handleOpenTermsModal = (section: LegalSectionId = 'terms') => {
+    setSelectedTermsSection(section);
+    setIsFullTermsOpen(true);
+  };
 
   const handleOpenAiChat = (initialPrompt?: string) => {
     setAiChatInitialPrompt(initialPrompt);
@@ -177,6 +195,10 @@ export default function App() {
           ]
         };
 
+        const categorization = getBrandCategorization(fallbackEvaluation);
+        fallbackEvaluation.priceTier = categorization.priceTier;
+        fallbackEvaluation.fashionPace = categorization.fashionPace;
+
         setActiveEvaluation(fallbackEvaluation);
       }
     } catch (err: any) {
@@ -269,6 +291,7 @@ export default function App() {
     setActiveEvaluation(null);
     setActiveQuery('');
     setErrorMessage(null);
+    setActiveView('investigate');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -281,67 +304,85 @@ export default function App() {
       <Header
         onReset={handleReset}
         onOpenMethodology={() => setIsMethodologyOpen(true)}
+        onOpenCompare={() => setIsCompareOpen(true)}
         onOpenAiChat={() => handleOpenAiChat()}
+        onOpenTerms={() => handleOpenTermsModal('terms')}
+        activeView={activeView}
+        onSelectView={(view) => {
+          setActiveView(view);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
       />
 
       {/* Main Content Area */}
       <main className="flex-1">
-        {/* Hero Search Section - matches the unfastenfashion.com screenshot */}
-        <HeroSearch
-          onSearch={handleSearch}
-          onImageSearch={handleImageSearch}
-          isLoading={isLoading}
-          activeQuery={activeQuery}
-          onOpenAiChat={handleOpenAiChat}
-        />
+        {activeView === 'blog' ? (
+          <BlogSection
+            onNavigateToAudits={() => {
+              setActiveView('investigate');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          />
+        ) : (
+          <>
+            {/* Hero Search Section - matches the unfastenfashion.com screenshot */}
+            <HeroSearch
+              onSearch={handleSearch}
+              onImageSearch={handleImageSearch}
+              isLoading={isLoading}
+              activeQuery={activeQuery}
+              onOpenAiChat={handleOpenAiChat}
+            />
 
-        {/* Loading State Banner - Fixed size container to completely prevent bouncing or size shifting */}
-        {isLoading && (
-          <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-12 text-center">
-            <div
-              id="investigating-status-box"
-              className="w-full max-w-md h-[185px] sm:h-[195px] mx-auto border border-[#D5CEC2] bg-[#FAF8F5] shadow-sm flex flex-col items-center justify-center p-6 text-center select-none"
-            >
-              <Loader2 className="w-7 h-7 sm:w-8 sm:h-8 animate-spin text-[#BE562C] shrink-0 mb-3" />
-              <p className="font-editorial-serif text-xl sm:text-2xl text-[#183626] font-normal italic leading-snug">
-                Investigating supply chain ethics...
-              </p>
-              <div className="h-9 w-full flex items-center justify-center mt-2 px-3">
-                <p className="text-xs font-mono uppercase tracking-widest text-[#76877D] text-center line-clamp-2 transition-opacity duration-300">
-                  {auditStep}
-                </p>
+            {/* Loading State Banner - Fixed size container to completely prevent bouncing or size shifting */}
+            {isLoading && (
+              <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-12 text-center">
+                <div
+                  id="investigating-status-box"
+                  className="w-full max-w-md h-[185px] sm:h-[195px] mx-auto border border-[#D5CEC2] bg-[#FAF8F5] shadow-sm flex flex-col items-center justify-center p-6 text-center select-none"
+                >
+                  <Loader2 className="w-7 h-7 sm:w-8 sm:h-8 animate-spin text-[#BE562C] shrink-0 mb-3" />
+                  <p className="font-editorial-serif text-xl sm:text-2xl text-[#183626] font-normal italic leading-snug">
+                    Investigating supply chain ethics...
+                  </p>
+                  <div className="h-9 w-full flex items-center justify-center mt-2 px-3">
+                    <p className="text-xs font-mono uppercase tracking-widest text-[#76877D] text-center line-clamp-2 transition-opacity duration-300">
+                      {auditStep}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        )}
+            )}
 
-        {/* Error message banner if any */}
-        {errorMessage && !isLoading && (
-          <div className="w-full max-w-4xl mx-auto px-6 mb-4">
-            <div className="p-4 border border-[#EED7CD] bg-[#FDF7F4] text-xs text-[#7A361A] flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 text-[#BE562C] shrink-0" />
-              <span>{errorMessage}</span>
-            </div>
-          </div>
-        )}
+            {/* Error message banner if any */}
+            {errorMessage && !isLoading && (
+              <div className="w-full max-w-4xl mx-auto px-6 mb-4">
+                <div className="p-4 border border-[#EED7CD] bg-[#FDF7F4] text-xs text-[#7A361A] flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-[#BE562C] shrink-0" />
+                  <span>{errorMessage}</span>
+                </div>
+              </div>
+            )}
 
-        {/* Full Brand Investigation Dossier */}
-        {activeEvaluation && !isLoading && (
-          <BrandDossier
-            evaluation={activeEvaluation}
-            onBackToSearch={handleReset}
-            onOpenCompare={() => setIsCompareOpen(true)}
-            onSelectAlternative={(altName) => handleSearch(altName, 'brand')}
-            onOpenAiChat={handleOpenAiChat}
-          />
-        )}
+            {/* Full Brand Investigation Dossier */}
+            {activeEvaluation && !isLoading && (
+              <BrandDossier
+                evaluation={activeEvaluation}
+                onBackToSearch={handleReset}
+                onOpenCompare={() => setIsCompareOpen(true)}
+                onSelectAlternative={(altName) => handleSearch(altName, 'brand')}
+                onOpenAiChat={handleOpenAiChat}
+              />
+            )}
 
-        {/* Explore more with AI Section */}
-        {!isLoading && (
-          <ExploreWithAiSection
-            onOpenAiChat={handleOpenAiChat}
-            currentBrand={activeEvaluation?.brandName}
-          />
+            {/* Explore more with AI Section */}
+            {!isLoading && (
+              <ExploreWithAiSection
+                onOpenAiChat={handleOpenAiChat}
+                currentBrand={activeEvaluation?.brandName}
+              />
+            )}
+          </>
         )}
       </main>
 
@@ -358,7 +399,15 @@ export default function App() {
       </div>
 
       {/* Footer */}
-      <Footer onOpenMethodology={() => setIsMethodologyOpen(true)} />
+      <Footer
+        onOpenMethodology={() => setIsMethodologyOpen(true)}
+        onOpenCompare={() => setIsCompareOpen(true)}
+        onOpenTerms={() => handleOpenTermsModal('terms')}
+        onOpenBlog={() => {
+          setActiveView('blog');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      />
 
       {/* AI Inspector Chat Drawer */}
       <AiInspectorChat
@@ -368,18 +417,42 @@ export default function App() {
         initialPrompt={aiChatInitialPrompt}
       />
 
-      {/* Compare Modal */}
-      {isCompareOpen && activeEvaluation && (
+      {/* Compare 2 or more brands modal */}
+      {isCompareOpen && (
         <BrandCompareModal
           currentBrand={activeEvaluation}
           onClose={() => setIsCompareOpen(false)}
-          onSelectCompareBrand={(name) => handleSearch(name, 'brand')}
+          onSelectBrandForFullDossier={(name) => {
+            setIsCompareOpen(false);
+            handleSearch(name, 'brand');
+          }}
         />
       )}
 
       {/* Methodology Modal */}
       {isMethodologyOpen && (
         <MethodologyModal onClose={() => setIsMethodologyOpen(false)} />
+      )}
+
+      {/* Permanent Terms & Conditions Gate on Entry (permanent until user clicks "I Understand") */}
+      {!hasAcceptedTerms && (
+        <TermsAndConditionsModal
+          isOpen={true}
+          isGate={true}
+          onClose={() => {}}
+          onAccept={handleAcceptTerms}
+          initialSection="terms"
+        />
+      )}
+
+      {/* Full Terms & Conditions Modal (accessible anytime via Footer or Header) */}
+      {hasAcceptedTerms && isFullTermsOpen && (
+        <TermsAndConditionsModal
+          isOpen={isFullTermsOpen}
+          isGate={false}
+          onClose={() => setIsFullTermsOpen(false)}
+          initialSection={selectedTermsSection}
+        />
       )}
     </div>
   );

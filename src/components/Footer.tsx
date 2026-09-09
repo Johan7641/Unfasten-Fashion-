@@ -3,9 +3,12 @@ import { ShieldCheck, Heart } from 'lucide-react';
 
 interface FooterProps {
   onOpenMethodology: () => void;
+  onOpenCompare?: () => void;
+  onOpenTerms: () => void;
+  onOpenBlog?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenMethodology }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenMethodology, onOpenCompare, onOpenTerms, onOpenBlog }) => {
   return (
     <footer className="w-full max-w-6xl mx-auto px-4 sm:px-6 pt-10 sm:pt-12 pb-14 sm:pb-16 mt-8 sm:mt-12 text-[#5E6F65]">
       <div className="border-t border-[#D5CEC2] pt-6 sm:pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
@@ -23,13 +26,45 @@ export const Footer: React.FC<FooterProps> = ({ onOpenMethodology }) => {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-xs font-mono">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-5 text-xs font-mono">
+          {onOpenBlog && (
+            <>
+              <button
+                type="button"
+                onClick={onOpenBlog}
+                className="hover:text-[#183626] transition-colors cursor-pointer uppercase tracking-wider min-h-[36px] flex items-center font-bold text-[#183626]"
+              >
+                Editorial &amp; Blog
+              </button>
+              <span className="text-[#B5C2BA] hidden sm:inline">•</span>
+            </>
+          )}
+          {onOpenCompare && (
+            <>
+              <button
+                type="button"
+                onClick={onOpenCompare}
+                className="hover:text-[#183626] transition-colors cursor-pointer uppercase tracking-wider min-h-[36px] flex items-center font-bold text-[#183626]"
+              >
+                Compare Brands
+              </button>
+              <span className="text-[#B5C2BA] hidden sm:inline">•</span>
+            </>
+          )}
           <button
             type="button"
             onClick={onOpenMethodology}
             className="hover:text-[#183626] transition-colors cursor-pointer uppercase tracking-wider min-h-[36px] flex items-center"
           >
             Audit Methodology
+          </button>
+          <span className="text-[#B5C2BA] hidden sm:inline">•</span>
+          <button
+            type="button"
+            onClick={onOpenTerms}
+            className="hover:text-[#183626] transition-colors cursor-pointer uppercase tracking-wider min-h-[36px] flex items-center"
+          >
+            Legal &amp; Privacy
           </button>
           <span className="text-[#B5C2BA] hidden sm:inline">•</span>
           <span className="text-xs text-[#7A8A81]">

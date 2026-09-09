@@ -8,6 +8,8 @@ export const CURATED_BRANDS: Record<string, BrandEvaluation> = {
     foundedYear: '2008',
     headquarters: 'Singapore (originally Nanjing, China)',
     parentCompany: 'Roadget Business Pte. Ltd.',
+    priceTier: '$',
+    fashionPace: 'Ultra Fast Fashion',
     score: 12,
     grade: 'F',
     verdict: 'AVOID',
@@ -102,6 +104,8 @@ export const CURATED_BRANDS: Record<string, BrandEvaluation> = {
     foundedYear: '1973',
     headquarters: 'Ventura, California, USA',
     parentCompany: 'Patagonia Purpose Trust & Holdfast Collective',
+    priceTier: '$$$',
+    fashionPace: 'Mid-Range Fashion',
     score: 91,
     grade: 'A+',
     verdict: 'EXEMPLARY',
@@ -186,6 +190,8 @@ export const CURATED_BRANDS: Record<string, BrandEvaluation> = {
     foundedYear: '1975',
     headquarters: 'Arteixo, Galicia, Spain',
     parentCompany: 'Inditex S.A.',
+    priceTier: '$$',
+    fashionPace: 'Fast Fashion',
     score: 42,
     grade: 'D',
     verdict: 'EXTREME CAUTION',
@@ -281,6 +287,8 @@ export const CURATED_BRANDS: Record<string, BrandEvaluation> = {
     foundedYear: '1853',
     headquarters: 'San Francisco, California, USA',
     parentCompany: 'Levi Strauss & Co.',
+    priceTier: '$$$',
+    fashionPace: 'Mid-Range Fashion',
     score: 68,
     grade: 'B',
     verdict: 'RECOMMENDED',
@@ -365,6 +373,8 @@ export const CURATED_BRANDS: Record<string, BrandEvaluation> = {
     foundedYear: '1984',
     headquarters: 'Yamaguchi & Tokyo, Japan',
     parentCompany: 'Fast Retailing Co., Ltd.',
+    priceTier: '$$',
+    fashionPace: 'Fast Fashion',
     score: 54,
     grade: 'C',
     verdict: 'MODERATE',
@@ -451,6 +461,8 @@ export const CURATED_BRANDS: Record<string, BrandEvaluation> = {
     foundedYear: '2022',
     headquarters: 'Boston, USA & Dublin, Ireland',
     parentCompany: 'PDD Holdings Inc.',
+    priceTier: '$',
+    fashionPace: 'Ultra Fast Fashion',
     score: 8,
     grade: 'F',
     verdict: 'AVOID',
@@ -525,5 +537,218 @@ export const CURATED_BRANDS: Record<string, BrandEvaluation> = {
       'Opaque third-party supplier network with zero labor audits',
       'Mass individual air-freight parcel logistics'
     ]
+  },
+
+  hermes: {
+    brandName: 'Hermès',
+    targetType: 'brand',
+    tagline: 'Historic Parisian Haute Maroquinerie & Extreme Luxury Maison',
+    foundedYear: '1837',
+    headquarters: 'Paris, France',
+    parentCompany: 'Hermès International S.A.',
+    priceTier: '$$$$$',
+    fashionPace: 'Ultra / Extreme Luxury Fashion',
+    score: 38,
+    grade: 'D',
+    verdict: 'EXTREME CAUTION',
+    oneLiner: 'Unrivaled artisanal longevity and lifetime repairability juxtaposed against opaque exotic leather supply chains and resistance to independent audits.',
+    summary: 'Hermès represents the pinnacle of extreme luxury craftsmanship: iconic goods like the Birkin and Kelly bags are hand-stitched by single artisans in France using generational saddle-stitch techniques designed to last decades. However, independent watchdog assessments (Good On You, Remake) penalize Hermès heavily for ethical vulnerabilities: intensive captive farming of exotic reptiles (crocodiles, lizards), lack of public living wage verification across upstream ranches and tanneries, and absence of validated Science Based Targets (SBTi) for Scope 3 emissions.',
+    materials: {
+      breakdown: [
+        { fiber: 'Full-Grain Box Calfskin & Taurillon Clemence', percentageEstimate: '55%', sustainabilityLevel: 'Good', notes: 'Biodegradable, exceptionally thick full-grain leather engineered for decades of structural integrity.' },
+        { fiber: 'Mulberry Silk Twill', percentageEstimate: '20%', sustainabilityLevel: 'Good', notes: 'Woven for iconic silk carrés; hand-rolled edges sewn by specialized artisans.' },
+        { fiber: 'Cashmere & Virgin Wool', percentageEstimate: '15%', sustainabilityLevel: 'Good', notes: 'High staple length natural animal fibers from certified European and Mongolian suppliers.' },
+        { fiber: 'Exotic Crocodile, Alligator & Lizard Skins', percentageEstimate: '5-10%', sustainabilityLevel: 'Poor', notes: 'Captive exotic farming heavily criticized by animal rights watchdogs and biodiversity researchers.' }
+      ],
+      virginSyntheticsShare: 'Under 3% across entire product portfolio',
+      durabilityScore: 98,
+      lifespanEstimate: '30 to 80+ years. Genuine heirloom artifacts passed down across generations with remarkable secondary market value retention.',
+      microplasticRisk: 'Low',
+      repairability: 'Exceptional: In-house Parisian and global restoration ateliers offer full lifetime mending, re-stitching, leather conditioning, and hardware replating.',
+      highlights: [
+        'Traditional two-needle saddle-stitch technique will not unravel even if an individual stitch breaks',
+        'Virtually zero fossil-fuel synthetic fiber dependency across leather goods and silk scarves',
+        'École Hermès des savoir-faire maintains centuries-old European artisanal leather-crafting heritage'
+      ]
+    },
+    laborEthics: {
+      score: 48,
+      livingWageStatus: 'Partial Progress',
+      transparencyLevel: 'Tier 1 Only',
+      auditFrequency: 'Internal audits across French leather ateliers; negligible third-party disclosure for upstream farms',
+      controversies: [
+        'Undercover investigations by PETA and wildlife protection groups documenting intensive farming conditions in Australian crocodile facilities supplying Hermès tanneries',
+        'Consistent refusal to disclose Tier-2 to Tier-4 supply chain facilities in public registries, scoring under 30% on the Fashion Transparency Index'
+      ],
+      humanRightsDetails: 'In-house French leather artisans enjoy high unionized compensation, comprehensive healthcare, and ergonomic ateliers. However, Hermès discloses almost no verifiable evidence of living wages or independent worker unionization across upstream agricultural ranches, exotic reptile farms, and contract tanneries.'
+    },
+    environmentalImpact: {
+      score: 36,
+      carbonFootprint: 'Substantial Scope 3 footprint linked to livestock rearing and energy-intensive chemical leather tanning',
+      waterAndChemicals: 'High water usage and chromium tanning compounds in conventional hide processing',
+      hazardousChemicalCommitment: 'Strict adherence to European REACH regulations, but lacks ZDHC Level 3 wastewater roadmaps',
+      packagingFootprint: 'Signature orange boxes made with FSC-certified recycled paper and non-toxic water-based inks',
+      highlights: [
+        'Extremely low unit production volumes compared to mass-market retailers prevent aggregate landfill waste',
+        'High per-unit ecological and animal welfare footprint for exotic reptile skin sourcing'
+      ]
+    },
+    greenwashingCheck: {
+      greenwashingRisk: 'Moderate',
+      unverifiedClaims: [
+        'Marketing leans on timeless craftsmanship to deflect public scrutiny from Scope 3 agricultural emissions and exotic skin procurement'
+      ],
+      verifiedCertifications: [
+        'Leather Working Group (LWG) Tannery Audits (Partial)',
+        'FSC Certified Packaging'
+      ],
+      realityVersusMarketing: 'Hermès is the antithesis of fast fashion in terms of physical durability and timelessness, but its extreme luxury heritage storytelling obscures systemic gaps in biodiversity protection and upstream traceability.'
+    },
+    ethicalAlternatives: [
+      {
+        name: 'Savette',
+        aestheticMatch: 'Minimalist luxury leather handbags',
+        whyBetter: 'Handcrafted in third-generation Italian family workshops using traceable calfskin with zero exotic skins.',
+        priceTier: '$$$$',
+        highlightCertification: 'Small-Batch Italian Craft'
+      },
+      {
+        name: 'Stella McCartney',
+        aestheticMatch: 'High-fashion designer tailoring and luxury bags',
+        whyBetter: 'Pioneer of luxury circularity, 100% vegetarian, bio-based vegan leather, and transparent SBTi emissions roadmap.',
+        priceTier: '$$$$',
+        highlightCertification: 'Cruelty-Free & Circular Luxury'
+      },
+      {
+        name: 'Elvis & Kresse',
+        aestheticMatch: 'Durable luxury leather and canvas accessories',
+        whyBetter: 'Certified B-Corp reclaiming decommissioned British firehoses and Burberry leather offcuts into lifetime-guaranteed goods.',
+        priceTier: '$$$',
+        highlightCertification: 'Certified B Corp & Circular Design'
+      }
+    ],
+    fastFashionFlags: [],
+    redFlags: [
+      'Intensive captive farming of exotic reptiles (crocodiles, lizards) for luxury leather goods',
+      'Opaque upstream supply chain (Tier 2-4 farms, ranches, and raw tanneries undisclosed)',
+      'Low Fashion Transparency Index score (consistently under 30% disclosure)',
+      'Absence of verified Science Based Targets initiative (SBTi) 1.5°C climate roadmap',
+      'Heavy water and chemical footprint associated with conventional leather tanning'
+    ],
+    positiveSteps: [
+      'Generational heirloom durability backed by global Hermès repair and restoration ateliers',
+      'In-house French leather artisans receive rigorous multi-year training and high unionized wages',
+      'Anti-disposable business model: limited production batches with remarkable resale value retention',
+      'Primary reliance on biodegradable, premium natural fibers (calfskin, mulberry silk, cashmere)'
+    ]
+  },
+
+  lululemon: {
+    brandName: 'Lululemon',
+    targetType: 'brand',
+    tagline: 'Technical Athleisure & Functional Innovation Brand',
+    foundedYear: '1998',
+    headquarters: 'Vancouver, British Columbia, Canada',
+    parentCompany: 'Lululemon Athletica Inc.',
+    priceTier: '$$$',
+    fashionPace: 'Mid-Range Fashion',
+    score: 46,
+    grade: 'D',
+    verdict: 'EXTREME CAUTION',
+    oneLiner: 'Beloved high-performance activewear undermined by heavy fossil-fuel synthetic reliance and rising Scope 3 emissions.',
+    summary: 'Lululemon pioneered modern athleisure with proprietary technical fabrics like Luon and Nulu. While the brand demonstrates progress in Tier-1 factory disclosure and circular resale ("Like New"), its core business model remains heavily anchored in virgin petroleum-derived synthetics that shed microplastics. Stand.earth and other environmental watchdogs have heavily criticized Lululemon for expanding coal-powered manufacturing in Vietnam and Cambodia while marketing an eco-wellness ethos.',
+    materials: {
+      breakdown: [
+        { fiber: 'Virgin Nylon (Polyamide) & Elastane (Lycra®)', percentageEstimate: '65%', sustainabilityLevel: 'Poor', notes: 'Fossil-fuel derived petrochemical fibers powering signature buttery-soft leggings.' },
+        { fiber: 'Polyester (Virgin & Recycled)', percentageEstimate: '20%', sustainabilityLevel: 'Moderate', notes: 'Transitioning select lines to recycled polyester, but microfiber wash shedding remains high.' },
+        { fiber: 'Cotton (Pima & Conventional)', percentageEstimate: '10%', sustainabilityLevel: 'Moderate', notes: 'Used in hoodies and casual tees; sourcing mix of BCI and organic cotton.' },
+        { fiber: 'Bio-based Synthetics (Genomatica)', percentageEstimate: '<1%', sustainabilityLevel: 'Good', notes: 'Piloting plant-based nylon alternatives at research scale.' }
+      ],
+      virginSyntheticsShare: 'Over 75% Synthetic Fibers',
+      durabilityScore: 72,
+      lifespanEstimate: '3 to 6 years with proper athletic care (gentle cycle, cold water, line dry).',
+      microplasticRisk: 'Extreme',
+      repairability: 'Select flagship stores offer complimentary hemming and seam repair, alongside the Lululemon Like New trade-in resale program.',
+      highlights: [
+        'Proprietary knitting delivers resilient 4-way stretch and shape retention across hundreds of wears',
+        'Leggings shed tens of thousands of synthetic microfibers per laundry wash cycle',
+        'Lululemon Like New circular program extends garment lifecycle via trade-ins'
+      ]
+    },
+    laborEthics: {
+      score: 52,
+      livingWageStatus: 'Unverified / Likely Below Living Wage',
+      transparencyLevel: 'Deep Multi-Tier Traceability',
+      auditFrequency: 'Regular third-party SMETA and FLA audits across finished goods facilities',
+      controversies: [
+        'Stand.earth international campaign targeting Lululemon for coal-powered fabric mills and wet processing in Asia',
+        'Worker rights advocacy groups highlight absence of verified living wages in Vietnamese and Cambodian contract factories'
+      ],
+      humanRightsDetails: 'Lululemon publishes an open map of Tier-1 manufacturing facilities and key fabric mills, scoring above average on transparency. However, independent proof of living wages (above statutory minimums) across outsourced Southeast Asian sewing floors remains unverified.'
+    },
+    environmentalImpact: {
+      score: 41,
+      carbonFootprint: 'Total greenhouse gas emissions increased due to rapid revenue expansion (Power of Three x2 strategy)',
+      waterAndChemicals: 'Partners with bluesign® and OEKO-TEX® to audit restricted substances in technical fabrics',
+      hazardousChemicalCommitment: 'Committed to zero discharge of hazardous chemicals (ZDHC) Roadmap to Zero',
+      packagingFootprint: 'Redesigned reusable shopper totes; expanding recycled polybags for shipping',
+      highlights: [
+        'Pledged to achieve 100% renewable electricity in owned facilities, but Scope 3 mill decarbonization lags',
+        'Investing in enzyme-based textile recycling startups to address elastane separation challenges'
+      ]
+    },
+    greenwashingCheck: {
+      greenwashingRisk: 'High Risk',
+      unverifiedClaims: [
+        'The "Be Planet" advertising campaign was formally investigated by the Canadian Competition Bureau for alleged deceptive marketing regarding carbon increases',
+        'Marketing emphasis on wellness and mindfulness conflicts with reliance on coal-fired manufacturing grids'
+      ],
+      verifiedCertifications: [
+        'bluesign® System Partner (Select fabrics)',
+        'OEKO-TEX® Standard 100',
+        'Fair Labor Association (FLA) Accredited'
+      ],
+      realityVersusMarketing: 'Active marketing portrays planetary harmony, while rapid corporate growth has driven absolute greenhouse gas emissions upward.'
+    },
+    ethicalAlternatives: [
+      {
+        name: 'Girlfriend Collective',
+        aestheticMatch: 'Vibrant compressive leggings and activewear',
+        whyBetter: 'Certified circular closed-loop recycling (ReGirlfriend), recycled water bottles, SA8000 fair wage certified.',
+        priceTier: '$$',
+        highlightCertification: 'SA8000 & OEKO-TEX Standard 100'
+      },
+      {
+        name: 'Boody',
+        aestheticMatch: 'Soft breathable bamboo athletic basics',
+        whyBetter: 'FSC-certified organically grown bamboo, closed-loop processing, B-Corp certified.',
+        priceTier: '$$',
+        highlightCertification: 'Certified B Corp & PETA Vegan'
+      },
+      {
+        name: 'Patagonia Active',
+        aestheticMatch: 'Technical running and yoga apparel',
+        whyBetter: 'Fair Trade Certified™ sewn, NetPlus® recycled ocean fishing nets, 1% for the Planet.',
+        priceTier: '$$$',
+        highlightCertification: 'Fair Trade Certified & B Corp'
+      }
+    ],
+    fastFashionFlags: [
+      'Rapid weekly product drops and seasonal color iterations designed to stimulate repeat buying',
+      'Over 75% petroleum-derived synthetic fibers driving microplastic pollution'
+    ],
+    redFlags: [
+      'High reliance on virgin petroleum synthetics (nylon, elastane) causing severe microplastic shedding',
+      'Scope 3 supply chain greenhouse gas emissions rising alongside aggressive corporate expansion',
+      'Canadian Competition Bureau investigation into "Be Planet" environmental claims',
+      'Fabric mills in Southeast Asia heavily dependent on coal-fired power grids'
+    ],
+    positiveSteps: [
+      'Public disclosure of Tier-1 manufacturing factories and primary fabric mills',
+      'Active "Lululemon Like New" circular resale and garment trade-in program',
+      'Complimentary garment hemming and minor seam mending at retail store locations',
+      'bluesign® and OEKO-TEX® certifications for chemical and dye safety across select technical fabrics'
+    ]
   }
 };
+

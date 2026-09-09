@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   ArrowLeft,
   Share2,
@@ -15,13 +15,16 @@ import {
   Menu,
   ChevronDown,
   X,
+  ArrowUpRight,
 } from 'lucide-react';
 import { BrandEvaluation } from '../types';
+import { getBrandCategorization } from '../utils/brandCategorization';
 import { MaterialAudit } from './MaterialAudit';
 import { LaborAudit } from './LaborAudit';
 import { EcoAudit } from './EcoAudit';
 import { GreenwashingRadar } from './GreenwashingRadar';
 import { EthicalSwaps } from './EthicalSwaps';
+import { RedAndGreenFlags } from './RedAndGreenFlags';
 
 interface BrandDossierProps {
   evaluation: BrandEvaluation;
@@ -31,16 +34,53 @@ interface BrandDossierProps {
   onOpenAiChat: (initialPrompt?: string) => void;
 }
 
-type TabType = 'all' | 'materials' | 'labor' | 'environmental' | 'truth' | 'swaps';
+type TabType = 'all' | 'materials' | 'labor' | 'environmental' | 'truth' | 'swaps' | 'flags';
 
-const TABS: Array<{ id: TabType; label: string; icon: React.ElementType }> = [
-  { id: 'all', label: 'ALL AUDITS', icon: Layers },
-  { id: 'materials', label: 'MATERIALS & DURABILITY', icon: Layers },
-  { id: 'labor', label: 'LABOR RIGHTS', icon: Users },
-  { id: 'environmental', label: 'ENVIRONMENT & CARBON', icon: Leaf },
-  { id: 'truth', label: 'GREENWASHING RADAR', icon: ShieldCheck },
-  { id: 'swaps', label: 'ETHICAL SWAPS', icon: Sparkles },
+interface TabItem {
+  id: TabType;
+  label: string;
+  shortLabel: string;
+  icon: React.ElementType;
+}
+
+const TABS: TabItem[] = [
+  { id: 'all', label: 'ALL AUDITS', shortLabel: 'ALL AUDITS', icon: Layers },
+  { id: 'materials', label: 'MATERIALS & DURABILITY', shortLabel: 'MATERIALS', icon: Layers },
+  { id: 'labor', label: 'LABOR RIGHTS', shortLabel: 'LABOR RIGHTS', icon: Users },
+  { id: 'environmental', label: 'ENVIRONMENT & CARBON', shortLabel: 'ENVIRONMENT', icon: Leaf },
+  { id: 'truth', label: 'GREENWASHING RADAR', shortLabel: 'GREENWASHING', icon: ShieldCheck },
+  { id: 'swaps', label: 'ETHICAL SWAPS', shortLabel: 'ETHICAL SWAPS', icon: Sparkles },
+  { id: 'flags', label: 'RED & GREEN FLAGS', shortLabel: 'RED & GREEN FLAGS', icon: AlertTriangle },
 ];
+
+const KNOWN_ALT_SCORES: Record<string, number> = {
+  patagonia: 91,
+  armedangels: 88,
+  'lucy & yak': 86,
+  kotn: 84,
+  sezane: 82,
+  sézane: 82,
+  'nudie jeans': 87,
+  'mud jeans': 89,
+  'colorful standard': 85,
+  'organic basics': 87,
+  pact: 83,
+  finisterre: 86,
+  'houdini sportswear': 90,
+  reformation: 78,
+  'nuw / depop / vinted': 92,
+  'thredup & goodwill finds': 90,
+};
+
+function getAltScore(name: string): number {
+  const clean = name.toLowerCase().trim();
+  if (KNOWN_ALT_SCORES[clean]) return KNOWN_ALT_SCORES[clean];
+  for (const [k, v] of Object.entries(KNOWN_ALT_SCORES)) {
+    if (clean.includes(k) || k.includes(clean)) return v;
+  }
+  const hash = clean.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  return 83 + (hash % 10);
+}
 
 export const BrandDossier: React.FC<BrandDossierProps> = ({
   evaluation,
@@ -52,6 +92,45 @@ export const BrandDossier: React.FC<BrandDossierProps> = ({
   const [activeTab, setActiveTab] = useState<TabType>('all');
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [copied, setCopied] = useState(false);
+  const navScrollRef = useRef<HTMLDivElement>(null);
+  const isProgrammaticScroll = useRef(false);
+  const scrollTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const brandCategorization = getBrandCategorization(evaluation);
+  const brandPriceAndPace = {
+    price: brandCategorization.priceTier,
+    pace: brandCategorization.fashionPace.toUpperCase(),
+  };
+
+  // Identify top better alternative in that price bracket for the analyzing section
+  const topAlternative =
+    evaluation.ethicalAlternatives && evaluation.ethicalAlternatives.length > 0
+      ? evaluation.ethicalAlternatives.find((a) => a.priceTier === brandCategorization.priceTier) ||
+        evaluation.ethicalAlternatives[0]
+      : null;
+
+  // Helper to scroll the horizontal tab bar without affecting window scroll
+  const scrollNavTabIntoView = (tabId: TabType) => {
+    const container = navScrollRef.current;
+    if (!container) return;
+    if (tabId === 'all') {
+      container.scrollTo({ left: 0, behavior: 'smooth' });
+      return;
+    }
+    const btn = document.getElementById(`tab-audit-${tabId}`);
+    if (btn) {
+      const containerRect = container.getBoundingClientRect();
+      const btnRect = btn.getBoundingClientRect();
+      const currentScrollLeft = container.scrollLeft;
+      const btnOffsetRelativeToContainer = btnRect.left - containerRect.left + currentScrollLeft;
+      const scrollLeftTarget =
+        btnOffsetRelativeToContainer - container.clientWidth / 2 + btn.clientWidth / 2;
+      container.scrollTo({
+        left: Math.max(0, scrollLeftTarget),
+        behavior: 'smooth',
+      });
+    }
+  };
 
   // Sync active tab with user's scroll position
   useEffect(() => {
@@ -61,15 +140,18 @@ export const BrandDossier: React.FC<BrandDossierProps> = ({
       { id: 'audit-section-environmental', tab: 'environmental' },
       { id: 'audit-section-greenwashing', tab: 'truth' },
       { id: 'audit-section-swaps', tab: 'swaps' },
+      { id: 'audit-section-flags', tab: 'flags' },
     ];
 
     const observer = new IntersectionObserver(
       (entries) => {
+        if (isProgrammaticScroll.current) return;
         const visibleEntry = entries.find((entry) => entry.isIntersecting);
         if (visibleEntry) {
           const match = sectionIds.find((s) => s.id === visibleEntry.target.id);
           if (match) {
             setActiveTab(match.tab);
+            scrollNavTabIntoView(match.tab);
           }
         }
       },
@@ -89,11 +171,31 @@ export const BrandDossier: React.FC<BrandDossierProps> = ({
 
   const handleTabClick = (tab: TabType) => {
     setActiveTab(tab);
+    scrollNavTabIntoView(tab);
+
+    isProgrammaticScroll.current = true;
+    if (scrollTimerRef.current) {
+      clearTimeout(scrollTimerRef.current);
+    }
+    scrollTimerRef.current = setTimeout(() => {
+      isProgrammaticScroll.current = false;
+    }, 1000);
 
     if (tab === 'all') {
-      const el = document.getElementById('audit-section-materials') || document.getElementById('audit-navigation');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const topTarget =
+        document.getElementById('audit-section-materials') ||
+        document.getElementById('audit-navigation');
+      if (topTarget) {
+        const nav = document.getElementById('audit-navigation');
+        const navHeight = nav ? nav.getBoundingClientRect().height : 55;
+        const targetRect = topTarget.getBoundingClientRect();
+        const currentScroll =
+          window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+        const targetTop = currentScroll + targetRect.top - navHeight - 16;
+        window.scrollTo({
+          top: Math.max(0, targetTop),
+          behavior: 'smooth',
+        });
       }
       return;
     }
@@ -104,12 +206,23 @@ export const BrandDossier: React.FC<BrandDossierProps> = ({
       environmental: 'audit-section-environmental',
       truth: 'audit-section-greenwashing',
       swaps: 'audit-section-swaps',
+      flags: 'audit-section-flags',
     };
 
     const targetId = sectionIdMap[tab];
     const targetElement = document.getElementById(targetId);
     if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const nav = document.getElementById('audit-navigation');
+      const navHeight = nav ? nav.getBoundingClientRect().height : 55;
+      const targetRect = targetElement.getBoundingClientRect();
+      const currentScroll =
+        window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+      const targetTop = currentScroll + targetRect.top - navHeight - 16;
+
+      window.scrollTo({
+        top: Math.max(0, targetTop),
+        behavior: 'smooth',
+      });
     }
   };
 
@@ -136,6 +249,7 @@ export const BrandDossier: React.FC<BrandDossierProps> = ({
 
   const handleCopySummary = () => {
     const text = `Unfasten Audit for ${evaluation.brandName}:
+Tier: ${brandPriceAndPace.price} • ${brandPriceAndPace.pace}
 Score: ${evaluation.score}/100 (Grade ${evaluation.grade} • ${evaluation.verdict})
 "${evaluation.oneLiner}"
 Synthetics: ${evaluation.materials.virginSyntheticsShare}
@@ -203,18 +317,21 @@ Evaluated on unfastenfashion.com`;
         </div>
       </div>
 
-      {/* Hero Dossier Header Card */}
+      {/* Hero Dossier Header Card (Analyzing Part) */}
       <div className="border border-[#D5CEC2] bg-[#FAF8F5] p-4 sm:p-8 md:p-10 mb-8 relative overflow-hidden shadow-xs">
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6 sm:gap-8">
           {/* Left Column: Brand Bio */}
           <div className="flex-1">
             <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
-              <span className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-[#BE562C] font-semibold">
-                INVESTIGATION DOSSIER #{Math.abs(evaluation.brandName.split('').reduce((acc, c) => acc + c.charCodeAt(0), 1000))}
+              {/* Dollar Signs & Speed Pace Label replacing Investigation Dossier #no */}
+              <span className={`text-xs sm:text-sm font-mono uppercase tracking-[0.2em] font-bold flex items-center gap-1.5 border px-2.5 py-1 rounded-none shadow-2xs ${brandCategorization.badgeColorClass}`}>
+                <span className="font-extrabold">{brandCategorization.priceTier}</span>
+                <span className="opacity-60">•</span>
+                <span>{brandCategorization.fashionPace.toUpperCase()}</span>
               </span>
 
               <span
-                className={`px-2.5 sm:px-3 py-0.5 text-[11px] sm:text-xs font-mono font-bold uppercase border ${getVerdictStyle(
+                className={`px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-mono font-bold uppercase border rounded-none ${getVerdictStyle(
                   evaluation.verdict
                 )}`}
               >
@@ -234,11 +351,11 @@ Evaluated on unfastenfashion.com`;
 
             {/* Uploaded Screenshot Badge if audited from image */}
             {evaluation.uploadedImagePreview && (
-              <div className="mb-4 inline-flex items-center gap-3 p-2.5 sm:p-3 border border-[#D5CEC2] bg-white max-w-lg shadow-2xs">
+              <div className="mb-4 inline-flex items-center gap-3 p-2.5 sm:p-3 border border-[#D5CEC2] bg-white max-w-lg shadow-2xs rounded-none">
                 <img
                   src={evaluation.uploadedImagePreview}
                   alt="Uploaded Product Screenshot"
-                  className="w-12 h-12 sm:w-14 sm:h-14 object-cover border border-[#D5CEC2] shrink-0"
+                  className="w-12 h-12 sm:w-14 sm:h-14 object-cover border border-[#D5CEC2] shrink-0 rounded-none"
                   referrerPolicy="no-referrer"
                 />
                 <div className="min-w-0">
@@ -254,7 +371,7 @@ Evaluated on unfastenfashion.com`;
             )}
 
             {/* Editorial One-Liner */}
-            <div className="p-3 sm:p-4 border-l-2 border-[#BE562C] bg-[#F5EFE4] mb-5 sm:mb-6">
+            <div className="p-3 sm:p-4 border-l-2 border-[#BE562C] bg-[#F5EFE4] mb-5 sm:mb-6 rounded-none">
               <p className="font-editorial-serif italic text-base sm:text-lg text-[#183626] leading-relaxed">
                 &ldquo;{evaluation.oneLiner}&rdquo;
               </p>
@@ -268,7 +385,7 @@ Evaluated on unfastenfashion.com`;
 
           {/* Right Column: Scorecard & Stamp */}
           <div className="shrink-0 flex flex-col items-center lg:items-end justify-center w-full lg:w-auto">
-            <div className="border border-[#D5CEC2] bg-white p-5 sm:p-6 text-center w-full max-w-xs sm:max-w-[240px] shadow-sm">
+            <div className="border border-[#D5CEC2] bg-white p-5 sm:p-6 text-center w-full max-w-xs sm:max-w-[240px] shadow-sm rounded-none">
               <span className="text-[10px] font-mono tracking-[0.25em] uppercase text-[#76877D] block mb-1">
                 UNFASTEN SCORE
               </span>
@@ -282,9 +399,9 @@ Evaluated on unfastenfashion.com`;
                 GRADE {evaluation.grade}
               </div>
 
-              <div className="w-full bg-[#E5DFD4] h-1.5 overflow-hidden">
+              <div className="w-full bg-[#E5DFD4] h-1.5 overflow-hidden rounded-none">
                 <div
-                  className={`h-full ${
+                  className={`h-full rounded-none ${
                     evaluation.score >= 70
                       ? 'bg-[#183626]'
                       : evaluation.score >= 45
@@ -302,7 +419,7 @@ Evaluated on unfastenfashion.com`;
           </div>
         </div>
 
-        {/* Fast Fashion Flags Callout */}
+        {/* Fast Fashion Warning Flags Callout */}
         {evaluation.fastFashionFlags && evaluation.fastFashionFlags.length > 0 && (
           <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-[#E5DFD4]">
             <div className="flex items-center gap-2 mb-3">
@@ -315,11 +432,78 @@ Evaluated on unfastenfashion.com`;
               {evaluation.fastFashionFlags.map((flag, idx) => (
                 <div
                   key={idx}
-                  className="p-2.5 sm:p-3 border border-[#EED7CD] bg-[#FDF7F4] text-xs text-[#7A361A] font-medium leading-relaxed"
+                  className="p-2.5 sm:p-3 border border-[#EED7CD] bg-[#FDF7F4] text-xs text-[#7A361A] font-medium leading-relaxed rounded-none"
                 >
                   • {flag}
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* Section for Better Alternative in Matching Price Range with AI Overview */}
+        {topAlternative && (
+          <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-[#E5DFD4]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 mb-3">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-[#BE562C]" />
+                <span className="font-mono text-xs uppercase tracking-widest font-bold text-[#183626]">
+                  Top Better Alternative in {brandPriceAndPace.price} Price Range
+                </span>
+              </div>
+              <span className="text-[11px] font-mono text-[#76877D]">
+                Higher integrity score • Same consumer budget tier
+              </span>
+            </div>
+
+            <div className="p-4 sm:p-5 border border-[#D5CEC2] bg-white rounded-none flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs">
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap items-center gap-2 mb-2">
+                  <h3 className="font-editorial-serif text-xl sm:text-2xl font-bold text-[#183626]">
+                    {topAlternative.name}
+                  </h3>
+                  <span className="font-mono text-xs font-bold text-[#183626] bg-[#F2EDE3] border border-[#D5CEC2] px-2 py-0.5 rounded-none">
+                    {topAlternative.priceTier}
+                  </span>
+                  <span className="font-mono text-xs font-bold text-[#183626] bg-[#ECF4EE] border border-[#B7D8C2] px-2 py-0.5 rounded-none">
+                    {getAltScore(topAlternative.name)}/100
+                  </span>
+                  <span className="text-xs font-mono text-[#76877D]">
+                    ({topAlternative.aestheticMatch})
+                  </span>
+                </div>
+
+                {/* Brief AI Overview of why it is better */}
+                <div className="p-3 bg-[#FAF8F5] border-l-2 border-[#183626] my-2.5 rounded-none">
+                  <p className="text-xs sm:text-sm text-[#46574D] leading-relaxed">
+                    <strong className="font-mono text-[10px] uppercase tracking-wider text-[#183626] mr-1.5 block sm:inline">
+                      AI Inspector Overview:
+                    </strong>
+                    {topAlternative.whyBetter}
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2 mt-2">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-[#76877D]">
+                    Verified Integrity:
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-mono font-medium text-[#183626] bg-[#ECF4EE] border border-[#B7D8C2] px-2 py-0.5 rounded-none">
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#183626]" />
+                    {topAlternative.highlightCertification}
+                  </span>
+                </div>
+              </div>
+
+              <div className="shrink-0 flex items-center">
+                <button
+                  type="button"
+                  onClick={() => onSelectAlternative(topAlternative.name)}
+                  className="w-full md:w-auto inline-flex items-center justify-center gap-1.5 px-5 py-2.5 bg-[#183626] hover:bg-[#204732] active:bg-[#12281c] text-white text-xs font-mono uppercase tracking-wider font-semibold rounded-none transition-all cursor-pointer min-h-[40px] shadow-xs"
+                >
+                  <span>Audit {topAlternative.name.split('/')[0].trim()}</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -331,15 +515,14 @@ Evaluated on unfastenfashion.com`;
         className="sticky top-0 z-30 bg-[#FAF8F5]/95 backdrop-blur-md py-2.5 mb-8 border-b border-[#D5CEC2] shadow-xs"
       >
         {/* Mobile & Tablet Bar: 3-line menu button + current page button in green background */}
-        <div className="flex xl:hidden items-center gap-2">
-          {/* 3 lines menu options button */}
+        <div className="flex lg:hidden items-center gap-2">
           <button
             type="button"
             id="audit-menu-toggle-btn"
             onClick={() => setIsMenuOpen((prev) => !prev)}
             aria-label="Toggle section navigation menu"
             aria-expanded={isMenuOpen}
-            className="min-h-[44px] min-w-[44px] px-3 py-2 border border-[#D5CEC2] bg-[#FAF8F5] text-[#183626] hover:bg-[#F0EAE0] active:bg-[#E5DFD4] flex items-center justify-center transition-all duration-300 ease-out cursor-pointer shadow-xs shrink-0"
+            className="min-h-[44px] min-w-[44px] px-3 py-2 border border-[#D5CEC2] bg-[#FAF8F5] text-[#183626] hover:bg-[#F0EAE0] active:bg-[#E5DFD4] flex items-center justify-center transition-all duration-300 ease-out cursor-pointer shadow-xs shrink-0 rounded-none"
           >
             {isMenuOpen ? (
               <X className="w-5 h-5 text-[#183626] transition-transform duration-300 ease-out" />
@@ -348,12 +531,11 @@ Evaluated on unfastenfashion.com`;
             )}
           </button>
 
-          {/* Towards the right of it in the same green background, a button showing which page you're on */}
           <button
             type="button"
             id="audit-current-section-btn"
             onClick={() => setIsMenuOpen((prev) => !prev)}
-            className="flex-1 min-h-[44px] px-4 py-2 bg-[#183626] text-white border border-[#183626] hover:bg-[#204732] active:bg-[#12281c] flex items-center justify-between gap-2.5 transition-all duration-300 ease-out cursor-pointer shadow-xs overflow-hidden"
+            className="flex-1 min-h-[44px] px-4 py-2 bg-[#183626] text-white border border-[#183626] hover:bg-[#204732] active:bg-[#12281c] flex items-center justify-between gap-2.5 transition-all duration-300 ease-out cursor-pointer shadow-xs overflow-hidden rounded-none"
           >
             <div className="flex items-center gap-2.5 truncate">
               <CurrentTabIcon className="w-4 h-4 shrink-0 text-[#E8A585]" />
@@ -369,10 +551,10 @@ Evaluated on unfastenfashion.com`;
           </button>
         </div>
 
-        {/* Sliding Main Menu (slides smoothly down when user clicks the menu button, NOT 2 rows!) */}
+        {/* Sliding Main Menu for mobile */}
         <div
           id="audit-sliding-menu"
-          className={`xl:hidden overflow-hidden transition-all duration-300 ease-out ${
+          className={`lg:hidden overflow-hidden transition-all duration-300 ease-out ${
             isMenuOpen
               ? 'max-h-96 opacity-100 mt-2.5 pt-2.5 border-t border-[#E5DFD4]'
               : 'max-h-0 opacity-0 pointer-events-none'
@@ -390,7 +572,7 @@ Evaluated on unfastenfashion.com`;
                     handleTabClick(tab.id);
                     setIsMenuOpen(false);
                   }}
-                  className={`min-h-[42px] px-4 py-2.5 text-xs font-mono uppercase tracking-wider font-semibold text-left flex items-center justify-between transition-all duration-300 ease-out cursor-pointer ${
+                  className={`min-h-[42px] px-4 py-2.5 text-xs font-mono uppercase tracking-wider font-semibold text-left flex items-center justify-between transition-all duration-300 ease-out cursor-pointer rounded-none ${
                     isActive
                       ? 'bg-[#183626] text-white shadow-xs'
                       : 'bg-white border border-[#E5DFD4] text-[#2D4537] hover:bg-[#F2ECE1] hover:border-[#183626] hover:text-[#183626] active:bg-[#ECE6DC]'
@@ -411,28 +593,34 @@ Evaluated on unfastenfashion.com`;
           </div>
         </div>
 
-        {/* Desktop Single-Row Tab Bar (shown on large screens where all 6 tabs fit cleanly without wrapping) */}
-        <div className="hidden xl:flex items-center gap-2 text-xs font-mono">
-          {TABS.map((tab) => {
-            const TabIcon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                id={`tab-audit-${tab.id}`}
-                onClick={() => handleTabClick(tab.id)}
-                className={`shrink-0 whitespace-nowrap min-h-[40px] px-4 py-2 transition-all duration-300 ease-out cursor-pointer uppercase tracking-wider font-semibold flex items-center gap-1.5 hover:-translate-y-0.5 active:translate-y-0 ${
-                  isActive
-                    ? 'bg-[#183626] text-white shadow-xs border border-[#183626]'
-                    : 'border border-[#D5CEC2] bg-[#FAF8F5] text-[#2D4537] hover:border-[#183626] hover:text-[#183626] hover:bg-[#F0EAE0]'
-                }`}
-              >
-                <TabIcon className="w-3.5 h-3.5 shrink-0" />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
+        {/* Desktop Single-Row Tab Bar - Strictly One Row, Centered & Smoothly Scrollable without clipping */}
+        <div
+          ref={navScrollRef}
+          className="hidden lg:flex w-full overflow-x-auto no-scrollbar py-1 scroll-smooth"
+        >
+          <div className="inline-flex items-center gap-1 xl:gap-2 mx-auto px-2 shrink-0 text-[11px] xl:text-xs font-mono">
+            {TABS.map((tab) => {
+              const TabIcon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  id={`tab-audit-${tab.id}`}
+                  onClick={() => handleTabClick(tab.id)}
+                  className={`shrink-0 whitespace-nowrap min-h-[36px] px-2.5 xl:px-3.5 py-1.5 transition-all duration-200 ease-out cursor-pointer uppercase tracking-wider font-semibold flex items-center gap-1.5 rounded-none hover:-translate-y-0.5 active:translate-y-0 ${
+                    isActive
+                      ? 'bg-[#183626] text-white shadow-xs border border-[#183626]'
+                      : 'border border-[#D5CEC2] bg-[#FAF8F5] text-[#2D4537] hover:border-[#183626] hover:text-[#183626] hover:bg-[#F0EAE0]'
+                  }`}
+                >
+                  <TabIcon className="w-3.5 h-3.5 shrink-0" />
+                  <span className="hidden xl:inline">{tab.label}</span>
+                  <span className="xl:hidden">{tab.shortLabel}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -460,6 +648,11 @@ Evaluated on unfastenfashion.com`;
             onSelectAlternative={onSelectAlternative}
           />
         </div>
+
+        {/* Red Flags and Green Flags Section right after Ethical Swaps */}
+        <div id="audit-section-flags" className="scroll-mt-20 sm:scroll-mt-24">
+          <RedAndGreenFlags evaluation={evaluation} onOpenAiChat={onOpenAiChat} />
+        </div>
       </div>
 
       {/* Bottom return to search */}
@@ -467,7 +660,7 @@ Evaluated on unfastenfashion.com`;
         <button
           type="button"
           onClick={onBackToSearch}
-          className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#183626] text-white text-xs font-mono uppercase tracking-[0.2em] hover:bg-[#234c36] transition-colors cursor-pointer"
+          className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#183626] text-white text-xs font-mono uppercase tracking-[0.2em] hover:bg-[#234c36] transition-colors cursor-pointer rounded-none"
         >
           <ArrowLeft className="w-4 h-4" />
           Investigate Another Brand or Product
@@ -476,3 +669,4 @@ Evaluated on unfastenfashion.com`;
     </section>
   );
 };
+

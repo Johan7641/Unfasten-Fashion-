@@ -80,6 +80,73 @@ export const MethodologyModal: React.FC<MethodologyModalProps> = ({ onClose }) =
               Unfasten Fashion does not accept sponsorships or paid promotions. Every rating and report we publish is based solely on verified environmental and ethical criteria &mdash; ensuring that our mission remains independent, educational, and trustworthy.
             </p>
           </div>
+
+          {/* Who We Are & About Us */}
+          <div className="pt-4 border-t border-[#E5DFD4] space-y-4">
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-[#BE562C] font-semibold block mb-1">
+                About Unfasten Fashion
+              </span>
+              <h3 className="font-editorial-serif text-xl font-bold text-[#183626] mb-2">
+                Who We Are
+              </h3>
+              <p className="text-xs sm:text-sm text-[#3F4F46] leading-relaxed bg-white p-4 border border-[#DCD5C9]">
+                &ldquo;Unfasten Fashion is a student-led non-profit initiative founded by a group of passionate changemakers determined to challenge the fast fashion industry. We believe that fashion should empower people, not exploit them and that every purchase carries the power to shape a more ethical, sustainable future. Our mission is to raise awareness among buyers about the quality, materials, and human impact behind the clothes they wear, promoting transparency and responsibility in every thread. Part of a passion and IFSPD project.&rdquo;
+              </p>
+            </div>
+
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-[#76877D] font-bold block mb-2">
+                Led By
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div className="p-3 bg-white border border-[#DCD5C9]">
+                  <h4 className="font-editorial-serif font-bold text-sm text-[#183626]">
+                    Johan Mathew Shareen
+                  </h4>
+                  <p className="text-[11px] font-mono text-[#BE562C] font-medium mt-0.5">
+                    Co Founder and Executive Head
+                  </p>
+                </div>
+
+                <div className="p-3 bg-white border border-[#DCD5C9]">
+                  <h4 className="font-editorial-serif font-bold text-sm text-[#183626]">
+                    Ved Marella
+                  </h4>
+                  <p className="text-[11px] font-mono text-[#BE562C] font-medium mt-0.5">
+                    Co Founder: Chief Executive Designer
+                  </p>
+                </div>
+
+                <div className="p-3 bg-white border border-[#DCD5C9]">
+                  <h4 className="font-editorial-serif font-bold text-sm text-[#183626]">
+                    Sanavi Barman
+                  </h4>
+                  <p className="text-[11px] font-mono text-[#5D6F65] font-medium mt-0.5">
+                    Operations Lead &amp; Core Team
+                  </p>
+                </div>
+
+                <div className="p-3 bg-white border border-[#DCD5C9]">
+                  <h4 className="font-editorial-serif font-bold text-sm text-[#183626]">
+                    Vaishnavi Sarnaik
+                  </h4>
+                  <p className="text-[11px] font-mono text-[#5D6F65] font-medium mt-0.5">
+                    Content Manager &amp; Core Team
+                  </p>
+                </div>
+
+                <div className="p-3 bg-white border border-[#DCD5C9] sm:col-span-2">
+                  <h4 className="font-editorial-serif font-bold text-sm text-[#183626]">
+                    Almir Mullapuram
+                  </h4>
+                  <p className="text-[11px] font-mono text-[#5D6F65] font-medium mt-0.5">
+                    Project Manager &amp; Core Team
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="pt-4 border-t border-[#E5DFD4] text-right">

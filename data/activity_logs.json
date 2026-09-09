@@ -1,0 +1,463 @@
+[
+  {
+    "action": "LOGIN",
+    "userId": "usr_mtr9zc8oqrr5",
+    "userName": "Visitor worldwide",
+    "userEmail": "visitor.worldwide@gmail.com",
+    "isCoreTeam": false,
+    "provider": "email",
+    "description": "User verified password and logged in via email (Session #2)",
+    "details": {
+      "loginCount": 2,
+      "role": "community_member",
+      "isCoreTeam": false,
+      "provider": "email"
+    },
+    "id": "act_mtr9zng8h3r4",
+    "timestamp": "2026-09-07T13:27:44.504Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_mtr9zc8oqrr5",
+    "userName": "Global Visitor",
+    "userEmail": "visitor.worldwide@gmail.com",
+    "isCoreTeam": false,
+    "provider": "google",
+    "description": "New account registered with compulsory password credentials via google",
+    "details": {
+      "role": "community_member",
+      "isCoreTeam": false,
+      "provider": "google"
+    },
+    "id": "act_mtr9zc8p2l0r",
+    "timestamp": "2026-09-07T13:27:29.977Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_core_editorial_desk",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "provider": "google",
+    "description": "User updated password credentials and signed in via google",
+    "details": {
+      "role": "core_editor",
+      "isCoreTeam": true,
+      "provider": "google"
+    },
+    "id": "act_mtr9x7hjpc85",
+    "timestamp": "2026-09-07T13:25:50.503Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_mtr9wpad6y1l",
+    "userName": "8090 Divyam",
+    "userEmail": "8090@gsis.ac.in",
+    "isCoreTeam": false,
+    "provider": "google",
+    "description": "New account registered with compulsory password credentials via google",
+    "details": {
+      "role": "community_member",
+      "isCoreTeam": false,
+      "provider": "google"
+    },
+    "id": "act_mtr9wpadwg3o",
+    "timestamp": "2026-09-07T13:25:26.917Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_core_editorial_desk",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "provider": "email",
+    "description": "User verified password and logged in via email (Session #30)",
+    "details": {
+      "loginCount": 30,
+      "role": "core_editor",
+      "isCoreTeam": true,
+      "provider": "email"
+    },
+    "id": "act_mtr9spgce593",
+    "timestamp": "2026-09-07T13:22:20.508Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_core_editorial_desk",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "provider": "google",
+    "description": "User updated password credentials and signed in via google",
+    "details": {
+      "role": "core_editor",
+      "isCoreTeam": true,
+      "provider": "google"
+    },
+    "id": "act_mtr9smjh0347",
+    "timestamp": "2026-09-07T13:22:16.733Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_mtr9sepfuyfp",
+    "userName": "Test password check",
+    "userEmail": "test_password_check@example.com",
+    "isCoreTeam": false,
+    "provider": "email",
+    "description": "User verified password and logged in via email (Session #2)",
+    "details": {
+      "loginCount": 2,
+      "role": "community_member",
+      "isCoreTeam": false,
+      "provider": "email"
+    },
+    "id": "act_mtr9sih0hs8e",
+    "timestamp": "2026-09-07T13:22:11.460Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_mtr9sepfuyfp",
+    "userName": "Test User",
+    "userEmail": "test_password_check@example.com",
+    "isCoreTeam": false,
+    "provider": "email",
+    "description": "New account registered with compulsory password credentials via email",
+    "details": {
+      "role": "community_member",
+      "isCoreTeam": false,
+      "provider": "email"
+    },
+    "id": "act_mtr9sepgpla4",
+    "timestamp": "2026-09-07T13:22:06.580Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_mtr9s7oan2x2",
+    "userName": "Tester",
+    "userEmail": "tester@example.com",
+    "isCoreTeam": false,
+    "provider": "email",
+    "description": "New Community account registered via email",
+    "details": {
+      "loginCount": 1,
+      "role": "community_member",
+      "isCoreTeam": false,
+      "provider": "email"
+    },
+    "id": "act_mtr9s7oao7e7",
+    "timestamp": "2026-09-07T13:21:57.466Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_core_editorial_desk",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "provider": "email",
+    "description": "User logged in via email (Session #28)",
+    "details": {
+      "loginCount": 28,
+      "role": "core_editor",
+      "isCoreTeam": true,
+      "provider": "email"
+    },
+    "id": "act_mtr96yv9w30s",
+    "timestamp": "2026-09-07T13:05:26.277Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_core_editorial_desk",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "provider": "email",
+    "description": "User logged in via email (Session #27)",
+    "details": {
+      "loginCount": 27,
+      "role": "core_editor",
+      "isCoreTeam": true,
+      "provider": "email"
+    },
+    "id": "act_mtr96yuod4w3",
+    "timestamp": "2026-09-07T13:05:26.256Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_core_editorial_desk",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "provider": "email",
+    "description": "User logged in via email (Session #26)",
+    "details": {
+      "loginCount": 26,
+      "role": "core_editor",
+      "isCoreTeam": true,
+      "provider": "email"
+    },
+    "id": "act_mtr96yrey8k9",
+    "timestamp": "2026-09-07T13:05:26.138Z"
+  },
+  {
+    "action": "SAVE_DRAFT",
+    "userName": "Johanmathewshareen",
+    "userEmail": "johanmathewshareen@gmail.com",
+    "isCoreTeam": false,
+    "targetId": "draft_mtr96f0xv3l8",
+    "targetTitle": "hi",
+    "description": "Saved draft: \"hi\" (Community)",
+    "details": {
+      "draftId": "draft_mtr96f0xv3l8",
+      "category": "Consumer Experience",
+      "contentLength": 0
+    },
+    "id": "act_mtr96fcwsvy9",
+    "timestamp": "2026-09-07T13:05:00.992Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_mtr969cus6ql",
+    "userName": "Johanmathewshareen",
+    "userEmail": "johanmathewshareen@gmail.com",
+    "isCoreTeam": false,
+    "provider": "email",
+    "description": "User logged in via email (Session #2)",
+    "details": {
+      "loginCount": 2,
+      "role": "community_member",
+      "isCoreTeam": false,
+      "provider": "email"
+    },
+    "id": "act_mtr969gh3bsz",
+    "timestamp": "2026-09-07T13:04:53.345Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_mtr969cus6ql",
+    "userName": "Johanmathewshareen",
+    "userEmail": "johanmathewshareen@gmail.com",
+    "isCoreTeam": false,
+    "provider": "email",
+    "description": "New Community account registered via email",
+    "details": {
+      "loginCount": 1,
+      "role": "community_member",
+      "isCoreTeam": false,
+      "provider": "email"
+    },
+    "id": "act_mtr969cu0akv",
+    "timestamp": "2026-09-07T13:04:53.214Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_core_editorial_desk",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "provider": "email",
+    "description": "User logged in via email (Session #25)",
+    "details": {
+      "loginCount": 25,
+      "role": "core_editor",
+      "isCoreTeam": true,
+      "provider": "email"
+    },
+    "id": "act_mtr95bs2jkct",
+    "timestamp": "2026-09-07T13:04:09.698Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_core_editorial_desk",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "provider": "email",
+    "description": "User logged in via email (Session #24)",
+    "details": {
+      "loginCount": 24,
+      "role": "core_editor",
+      "isCoreTeam": true,
+      "provider": "email"
+    },
+    "id": "act_mtr95bqacy0c",
+    "timestamp": "2026-09-07T13:04:09.634Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_core_editorial_desk",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "provider": "email",
+    "description": "User logged in via email (Session #23)",
+    "details": {
+      "loginCount": 23,
+      "role": "core_editor",
+      "isCoreTeam": true,
+      "provider": "email"
+    },
+    "id": "act_mtr95bms9zuk",
+    "timestamp": "2026-09-07T13:04:09.508Z"
+  },
+  {
+    "action": "SAVE_DRAFT",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "targetId": "draft_mtr948es28n3",
+    "targetTitle": "hh",
+    "description": "Saved draft: \"hh\" (Editorial)",
+    "details": {
+      "draftId": "draft_mtr948es28n3",
+      "category": "Material Investigation",
+      "contentLength": 0
+    },
+    "id": "act_mtr948qsjp3m",
+    "timestamp": "2026-09-07T13:03:19.108Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_core_editorial_desk",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "provider": "google",
+    "description": "User logged in via google (Session #22)",
+    "details": {
+      "loginCount": 22,
+      "role": "core_editor",
+      "isCoreTeam": true,
+      "provider": "google"
+    },
+    "id": "act_mtr93fdv3183",
+    "timestamp": "2026-09-07T13:02:41.059Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_core_editorial_desk",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "provider": "google",
+    "description": "User logged in via google (Session #21)",
+    "details": {
+      "loginCount": 21,
+      "role": "core_editor",
+      "isCoreTeam": true,
+      "provider": "google"
+    },
+    "id": "act_mtr93fcvmvs3",
+    "timestamp": "2026-09-07T13:02:41.023Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_core_editorial_desk",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "provider": "google",
+    "description": "User logged in via google (Session #20)",
+    "details": {
+      "loginCount": 20,
+      "role": "core_editor",
+      "isCoreTeam": true,
+      "provider": "google"
+    },
+    "id": "act_mtr93f9sebpp",
+    "timestamp": "2026-09-07T13:02:40.912Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_core_editorial_desk",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "provider": "google",
+    "description": "User logged in via google (Session #19)",
+    "details": {
+      "loginCount": 19,
+      "role": "core_editor",
+      "isCoreTeam": true,
+      "provider": "google"
+    },
+    "id": "act_mtr8z9ln4cn1",
+    "timestamp": "2026-09-07T12:59:26.939Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_core_editorial_desk",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "provider": "google",
+    "description": "User logged in via google (Session #18)",
+    "details": {
+      "loginCount": 18,
+      "role": "core_editor",
+      "isCoreTeam": true,
+      "provider": "google"
+    },
+    "id": "act_mtr8z9kmtrwb",
+    "timestamp": "2026-09-07T12:59:26.902Z"
+  },
+  {
+    "action": "LOGIN",
+    "userId": "usr_core_editorial_desk",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "provider": "google",
+    "description": "User logged in via google (Session #17)",
+    "details": {
+      "loginCount": 17,
+      "role": "core_editor",
+      "isCoreTeam": true,
+      "provider": "google"
+    },
+    "id": "act_mtr8z9h4dtdw",
+    "timestamp": "2026-09-07T12:59:26.776Z"
+  },
+  {
+    "id": "act_init_01",
+    "timestamp": "2026-09-07T10:58:42.843Z",
+    "action": "LOGIN",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "provider": "google",
+    "description": "Verified manager logged in via Google Workspace session",
+    "details": {
+      "loginCount": 16,
+      "clientAgent": "Desktop"
+    }
+  },
+  {
+    "id": "act_init_02",
+    "timestamp": "2026-09-07T11:28:42.843Z",
+    "action": "PUBLISH_POST",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "targetId": "editorial-1",
+    "targetTitle": "Shein supply chain audit investigation",
+    "description": "Published investigative dossier into synthetic fiber ratios",
+    "details": {
+      "category": "Supply Chain Audits",
+      "readingTime": "7 min"
+    }
+  },
+  {
+    "id": "act_init_03",
+    "timestamp": "2026-09-07T12:13:42.843Z",
+    "action": "SAVE_DRAFT",
+    "userName": "Core Editorial Desk",
+    "userEmail": "7641@gsis.ac.in",
+    "isCoreTeam": true,
+    "targetTitle": "H&M \"Conscious\" Collection Greenwashing Teardown",
+    "description": "Saved progress on upcoming investigative editorial",
+    "details": {
+      "wordCount": 420,
+      "category": "Fast Fashion Teardown"
+    }
+  }
+]
